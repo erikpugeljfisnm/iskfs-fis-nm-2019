@@ -34,7 +34,8 @@
 <button class="button" id="gumbPrižgi4" onClick="prižgi4()">Prižgi O 2</button>
 <button class="button" id="gumbUgasni4" onClick="ugasni4()">Ugasni O 2</button>
 <p></p>
-
+<button class="button" id="gumbUSE" onClick="prižgiUse()">Prižgi USE </button>
+<button class="button" id="gumbUSEUGASNI" onClick="ugasniUse()">Ugasni USE </button>
 <br>
 
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -75,6 +76,17 @@ function prižgi4 () {
 function ugasni4 () {
     socket2.emit("ukazArduinu", 2); // na strežnik pošljem 0
 }
+
+function prižgiUse () {
+    prižgi1 ();
+    prižgi2 ();
+}
+
+function ugasniUse () {
+    ugasni1 ();
+    ugasni2();
+}
+
 </script>
     
 </body>
