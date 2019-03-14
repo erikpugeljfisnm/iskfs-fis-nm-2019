@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<meta charset = utf8>
+<html>
+
+<head>
+    <title>Primer s tipko</title>
+</head>
+
+<body>
+<canvas id="canvas" width="500" height="150" style="border:1px solid #d3d3d3;">
+</canvas>
+
+
+
+<div id="divIzpis"></div>
+
+<br>
+
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script>
+var c = document.getElementById("canvas");
+var ctx = c.getContext("2d");
+ctx.fillStyle = "#FF0000";
+ctx.fillRect(0, 0, 500, 150);
+</script>
+
+<script type="text/javascript">
+
+"use strict"; // za uporabo razredov ("class")
+
+var divIzpis = document.getElementById("divIzpis");
+// spremenljivka za izpis sporočil
+var številoVrsticPredPomikom = 10; // število vrstic, ki jih bomo izpisali pred pomikom
+var števecIzpisanihVrstic = 0;
+
+function log(sporočilo) {
+    var node=document.createElement("tr"); // ustvarimo spremenljivko "node" kot vrstico v tabeli ("tr")
+    var textnode=document.createTextNode(števecIzpisanihVrstic + " | " + sporočilo); // ustvarimo element s števcem
+    node.appendChild(textnode); // dodamo besedilo k spremenljivki "node", t.j. vrstico tabele
+    divIzpis.insertBefore(node, divIzpis.childNodes[0]); // vstavimo v spremenljivko "node"
+    if (števecIzpisanihVrstic > številoVrsticPredPomikom-1) { // če je vrstic več kot limita -> pričnemo s pomikom ("scroll")
+    divIzpis.removeChild(divIzpis.childNodes[številoVrsticPredPomikom]); // odstranimo najstarejši izpis
+    }
+    števecIzpisanihVrstic++; // povečamo števec izpisov
+}
+
+
+
+
+log("Pritisnite tipko na vezju");
+
+var socket = io.connect("192.168.1.116:8080"); // povezava preko vtičnika
+
+socket.on("sporočiloKlientu", function (sporočilo){
+    log(sporočilo);
+ if(sporočilo==1){
+    ctx.fillStyle="#FF0000";
+    ctx.fillRect(0, 0, 500, 150);
+ }   
+else if(sporočilo==0){
+    ctx.fillStyle="#00FF00";
+    ctx.fillRect(0, 0, 500, 150);
+}
+    
+ 
+});
+
+</script>
+    
+</body>
+    
+    
+</html>
